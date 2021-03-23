@@ -141,7 +141,7 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(BookType),
             resolve(parent,args){
 
-               
+               return Book.find()
             }
         }
         ,
@@ -149,7 +149,7 @@ const RootQuery = new GraphQLObjectType({
         authors :{
             type : new GraphQLList(AuthorType),
             resolve(parent,args){
-               
+               return Author.find()
             }
         }
        
