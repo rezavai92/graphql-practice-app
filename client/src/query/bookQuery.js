@@ -3,7 +3,7 @@ import {gql} from '@apollo/client'
 
 export const getAllBooks = gql`{
 
-    books:{
+    books{
         name,
         id,
         genre,
@@ -16,3 +16,11 @@ export const getAllBooks = gql`{
 }`
 
 
+export const getBook =gql`query book($id : ID!){
+
+    book(id:$id){
+        id,
+        name,
+        genre
+    }
+}`

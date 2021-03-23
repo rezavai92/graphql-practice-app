@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {gql,useMutation,useQuery} from '@apollo/client'
-export default function Addbook() {
+import {getDropDownAuthors} from '../query/authorQuery'
+export default function Addbook(props) {
 
     const [bookName,setBookName] = useState("")
     const [genre,setGenre] = useState("")
@@ -8,7 +9,7 @@ export default function Addbook() {
 
     
 console.log("author id is",authorId)
-
+  // add book mutation 
     const ADD_BOOK=gql`
        mutation addBook($name:String!,$genre:String!,$authorId:String!){
 
@@ -19,26 +20,21 @@ console.log("author id is",authorId)
        }
           
     `
-    const getAuthors=gql`{
-
-        authors{
-            id
-            name
-        }
-    }`
-    const {data : authors,loading:authorsLoading,error} = useQuery(getAuthors)
+    // query for fetching author details
+    
+    const {data : authors,loading:authorsLoading,error} = useQuery(getDropDownAuthors)
 
     console.log("authors are ",authors)
     const [addBook] = useMutation(ADD_BOOK);
     
    
-    
-       const mappedOptions = !authorsLoading ?authors.authors.map((a)=>{
-        return <option value={a.id}   >
-                 {a.name}
+    // options that will be dropped onto the author dropdown 
+       const mappedOptions = props.authors.map((author)=>{
+
+        return <option value ={author.id} >
+            {author.name}
         </option>
-    }) : null
-    
+       })
 
     return (
         <div>
