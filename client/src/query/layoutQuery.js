@@ -10,6 +10,7 @@ export const getLayoutData = gql`
     }
 
     books{
+        id
         name
         genre
         author{

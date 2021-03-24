@@ -27,24 +27,3 @@ export const getAuthor = gql`query author($id:ID!){
         }
 }`
 
-export const getLayoutData = gql`
-{
-
-
-    authors{
-        name
-        id
-    }
-
-    books{
-        name
-        genre
-        author{
-            id
-            name
-        }
-    }
-
-}
-`
-

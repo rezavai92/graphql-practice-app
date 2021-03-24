@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {gql,useMutation,useQuery} from '@apollo/client'
 import {getDropDownAuthors} from '../query/authorQuery'
+import { getAllBooks } from '../query/bookQuery'
 export default function Addbook(props) {
 
     const [bookName,setBookName] = useState("")
@@ -45,7 +46,11 @@ console.log("author id is",authorId)
                     name : bookName,
                     genre: genre,
                     authorId:authorId
-                }})
+                },
+                refetchQueries:[{query:getAllBooks}]
+                    
+                
+            })
                 setBookName("")
                 setAuthorId("")
                 setGenre("")

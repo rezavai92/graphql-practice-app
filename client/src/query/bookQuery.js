@@ -22,5 +22,14 @@ export const getBook =gql`query book($id : ID!){
         id,
         name,
         genre
+        author{
+            id,
+            name,
+            age,
+            books{
+                name
+                
+            }
+        }
     }
 }`
