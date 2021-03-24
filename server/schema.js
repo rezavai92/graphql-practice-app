@@ -3,7 +3,7 @@ const _ = require('lodash')
 
 const Book = require('./models/book')
 const Author = require('./models/author')
-const {GraphQLObjectType,GraphQLString,GraphQLSchema,GraphQLID,GraphQLInt,GraphQLList} = graphql
+const {GraphQLObjectType,GraphQLString,GraphQLSchema,GraphQLID,GraphQLInt,GraphQLInputObjectType,GraphQLList,GraphQLNonNull} = graphql
 
 
 
@@ -60,6 +60,22 @@ const {GraphQLObjectType,GraphQLString,GraphQLSchema,GraphQLID,GraphQLInt,GraphQ
 
 // }
 // ]
+
+
+
+const BookInputType = new GraphQLInputObjectType({
+    name : "BookInputType",
+    description: 'Input payload for creating or updating user',
+    fields : ()=>({
+
+        id :{type : GraphQLID},
+        name :{type : GraphQLString},
+        genre : {type : GraphQLString},
+        authorId :{type : GraphQLID}
+    })
+})
+
+
 
 const BookType = new GraphQLObjectType({
 
@@ -192,6 +208,20 @@ const Mutation = new GraphQLObjectType({
             }
         },
 
+        deleteBook:{
+            type: BookType,
+            args:{
+                id:{
+                    type : GraphQLID
+                }
+            },
+            resolve(parent,args){
+               return Book.findByIdAndDelete(args.id)
+            }
+            
+        }
+        ,
+
         addAuthor :{
             type : AuthorType,
             args:{
@@ -212,8 +242,48 @@ const Mutation = new GraphQLObjectType({
 
                     return a.save()
             }
+        } 
+        ,
+
+        updateBook :{
+
+            type : BookType,
+            args : {
+                id : {
+                    type : GraphQLID
+                },
+                updatedBook :{
+                    type :  BookInputType
+                }
+            }
+                ,
+             resolve(parent,args){
+            
+
+                const newObj = {name : args.updatedBook.name,genre:args.updatedBook.genre, author:{id : args.updatedBook.authorId}}
+          
+                return  Book.findByIdAndUpdate(args.id,newObj)
+            
+            }
         }
-    }
+
+        ,
+        deleteAuthor:{
+            type : AuthorType,
+            args: {
+                id:{
+                    type : GraphQLID
+                }
+            },
+            resolve(parent,args){
+
+                return Author.findByIdAndDelete(args.id)
+            }
+            }
+        
+    
+        } 
+
 })
 
 

@@ -32,7 +32,7 @@ console.log("author id is",authorId)
     // options that will be dropped onto the author dropdown 
        const mappedOptions = props.authors.map((author)=>{
 
-        return <option value ={author.id} >
+        return <option value ={author.id} selected  >
             {author.name}
         </option>
        })

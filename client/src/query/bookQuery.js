@@ -16,6 +16,7 @@ export const getAllBooks = gql`{
 }`
 
 
+
 export const getBook =gql`query book($id : ID!){
 
     book(id:$id){
